@@ -1,21 +1,28 @@
-//import { useState } from 'react'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from '../component/Home'
+import Portfolio from '../component/Portfolio'
+import Weddings from '../component/Weddings'
+import About from '../component/About'
+import Inquire from '../component/Inquire'
+import SamplePage from '../component/SamplePage'
+import Navigation from '../component/Navigation'
+import Footer from '../component/Footer'
 
 function App() {
-
-
   return (
     <>
-    <h1>Hello World</h1>
-    <button>clickclick</button>
-    <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-    Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis 
-    ipsum. Praesent mauris. Maecenas in magna mollis dolor sollicitudin 
-    tempor. Cras ultricies mi eu turpis hendrerit fringilla
-    </p>
-    <a>Here is a link to nowhere</a>
+    <BrowserRouter>
+        <Navigation />
+        <Routes>
+            <Route path='samplepage' element={<SamplePage />} /> 
+            <Route path='/' element={<Home />} /> 
+            <Route path='portfolio' element={<Portfolio />} /> 
+            <Route path='weddings' element={<Weddings />} /> 
+            <Route path='about' element={<About />} />           
+            <Route path='inquire' element={<Inquire />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </>
   )
 }
