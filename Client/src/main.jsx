@@ -2,26 +2,29 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import "../styles/index.css"
+
+const qsFont =  "'Quicksand', sans-serif";
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#cfd8dc',
-      main: '#eceff1',
-      dark: '#b0bec5',
-      contrastText: '#90a4ae',
+      main: '#FFFAF0',//'#FFFFF0',
     },
     secondary: {
-      light: '#fafafa',
-      main: '#f5f5f5',
-      dark: '#eeeeee',
-      contrastText: '#e0e0e0',
+      main: '#A9A9A9',
     },
   },
+  typography: {
+    fontFamily: qsFont,
+    fontSize: 12,
+    }
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <CssBaseline />
     <ThemeProvider theme={theme}>
     <App />
     </ThemeProvider>
