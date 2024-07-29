@@ -1,4 +1,8 @@
-import { Box, Container, ImageList,ImageListItem, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import Container from "@mui/material/Container";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import Typography from "@mui/material/Typography";
 import homeBanner from "../src/images/homeBanner.jpg"
 
 export default function Home() {
@@ -61,17 +65,17 @@ export default function Home() {
         <Banner/>    
         <Container>
         <ImageList sx={{ width: '100%', height: '75%' }} variant="woven" cols={3} gap={15}>
-  {imageList.length > 0 && imageList.map((item) => {
-    return <ImageListItem key={item.img} sx={{boxShadow: 5}}>
-      <img
-        srcSet={`${item.img}?w=161&fit=crop&auto=format&dpr=2 2x`}
-        src={`${item.url}?w=161&fit=crop&auto=format`}
-        alt={item.title}
-        loading="lazy"
-      />
-    </ImageListItem>
-})}
-</ImageList>
+            {imageList.length > 0 && imageList.map((item) => {
+                return <ImageListItem key={item.id} sx={{boxShadow: 5}}>
+                <img
+                    srcSet={`${item.url}?w=161&fit=crop&auto=format&dpr=2 2x`}
+                    src={`${item.url}?w=161&fit=crop&auto=format`}
+                    alt={item.title}
+                    loading="lazy"
+                />
+                </ImageListItem>
+            })}
+        </ImageList>
         </Container>
         </>
     )

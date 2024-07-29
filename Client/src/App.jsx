@@ -7,6 +7,8 @@ import Inquire from '../component/Inquire'
 import SamplePage from '../component/SamplePage'
 import Navigation from '../component/Navigation'
 import Footer from '../component/Footer'
+import Services from '../component/Services'
+import Editorials from '../component/Editorials'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path='weddings' element={<Weddings />} /> 
             <Route path='about' element={<About />} />           
             <Route path='inquire' element={<Inquire />} />
+            <Route path='services' element={<Services />} />
+            <Route path='editorials' element={<Editorials />} />
         </Routes>
         <Footer />
       </BrowserRouter>

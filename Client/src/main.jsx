@@ -1,8 +1,8 @@
+import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
 import "../styles/index.css"
 
 const qsFont =  "'Quicksand', sans-serif";
