@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import PropTypes from 'prop-types'
 import Home from '../component/Home'
 import Portfolio from '../component/Portfolio'
 import Weddings from '../component/Weddings'
@@ -8,9 +11,19 @@ import SamplePage from '../component/SamplePage'
 import Navigation from '../component/Navigation'
 import Footer from '../component/Footer'
 
-function App() {
+
+function App( {children} ) {
+
+  App.propTypes = {
+    children: PropTypes.node.isRequired
+  }
+
   return (
     <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {children}
+    </LocalizationProvider>
+
     <BrowserRouter>
         <Navigation />
         <Routes>
