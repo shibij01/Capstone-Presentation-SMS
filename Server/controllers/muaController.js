@@ -5,9 +5,35 @@ const IGToken = require("../models/token");
 const IGMedia = require("../models/media");
 const IGTokenTracker = require("../models/tokenTracker");
 const { all } = require("../routes/muaRoutes");
-
+const nodemailer = require("nodemailer");
 //Import dotenv for private info
 require("dotenv").config();
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'cakedbackendserver@gmail.com',
+        
+    }
+});
+
+exports.createInquiry = async (req, res) => {
+
+    const message = {
+        from: req.body.email,
+        to: "kims email",
+        subject: `${req.body.inquiryType} Inquiry: ${req.body.firstName} ${req.body.lastName}`,
+        html: `
+            <h2> ${req.body.inquiryType} Inquiry from ${req.body.firstName} ${req.body.lastName}</h2>
+            <br/>
+            <p> Email: ${req.body.email} </p>
+            
+        `
+    }
+}
+
+
 
 // Save IG Token
 exports.saveIGToken = async (req,res) => {
@@ -120,4 +146,3 @@ exports.getIGMedia = async (req,res) => {
         return res.status(500).json("Error: getIGMedia!");
     }        
 }
-
