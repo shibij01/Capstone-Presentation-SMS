@@ -41,6 +41,10 @@ const inquirySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    needATrial: {
+        type: String,
+        required: true
+    },
     howDidYouHear: {
         type: String,
         required: false
