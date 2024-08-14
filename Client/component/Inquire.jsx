@@ -14,23 +14,23 @@ export function InquiryBox() {
             name="inquiryType"
             options={InquiryOptions}
             sx={{ 
-                width: '40vw',
+                width: '60vw',
                 alignItems: "center",
-             }}
+            }}
             renderInput={(params) => <TextField {...params} label="Inquiry Type" variant="standard" required/>}
-        />
-    )
-}
+            />
+        )
+    }
 
-const InquiryOptions = [
-    { label: "Wedding"},
-    { label: "Photoshoot"},
-    { label: "Other"}
-];
-
-
-export function EventDateCalendar() {
-    return (
+    const InquiryOptions = [
+        { label: "Wedding"},
+        { label: "Photoshoot"},
+        { label: "Other"}
+    ];
+    
+    
+    export function EventDateCalendar() {
+        return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
             label="Event Date"
@@ -41,30 +41,31 @@ export function EventDateCalendar() {
                     variant: 'standard',
                 }
             }}
-        />
+            />
     </LocalizationProvider>
     );
 }
 
 
 export default function Inquire() {
-
+    
+    
     async function handleSubmit(e) {
-        e.preventDefault();
-
-        const inquiryType = e.target.inquiryType.value;
-        const firstName = e.target.firstName.value;
-        const lastName = e.target.lastName.value;
-        const email = e.target.email.value;
-        const phoneNumber = e.target.phonenumber.value;
-        const numberNeedingMakeup = e.target.numberNeedingMakeup.value;
-        const eventDate = e.target.eventDate.value;
-        const readyLocation = e.target.readyLocation.value;
-        const venueLocation = e.target.venueLocation.value;
-        const timeToComplete = e.target.timeToComplete.value;
-        const howDidYouHear = e.target.howDidYouHear.value;
-        const detailsQuestionsNotes = e.target.detailsQuestionsNotes.value;
-
+        
+        const inquiryType = e.target[0].value;
+        const firstName = e.target[3].value;
+        const lastName = e.target[4].value;
+        const email = e.target[5].value;
+        const phoneNumber = e.target[6].value;
+        const numberNeedingMakeup = e.target[7].value;
+        const eventDate = e.target[8].value;
+        const readyLocation = e.target[10].value;
+        const venueLocation = e.target[11].value;
+        const timeToComplete = e.target[12].value;
+        const needATrial = e.target[13].value;
+        const howDidYouHear = e.target[14].value;
+        const detailsQuestionsNotes = e.target[15].value;
+        
         const body = {
             inquiryType: inquiryType,
             firstName: firstName,
@@ -76,36 +77,42 @@ export default function Inquire() {
             readyLocation: readyLocation,
             venueLocation: venueLocation,
             timeToComplete: timeToComplete,
+            needATrial: needATrial,
             howDidYouHear: howDidYouHear,
             detailsQuestionsNotes: detailsQuestionsNotes
         }
-
-        const response = await fetch("http://localhost:3000/createInquiry", {
+        console.log(body)
+        
+        const response = await fetch("http://localhost:3000/cakedByKim/createInquiry", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
                 'Content-Type' : 'application/json'
             }
         });
-
-        if (response.status !== 201) {
-            alert("Error Occurred Creating Inquiry");
-
+        
+        if (response.status !== 200) {
+            alert("An error occurred submitting your request.");
+        } else {
+            alert("Request Submitted! We will be reaching out shortly.");
         }
-
+        
+        
     }
-
-
+    
     return (
         <>
         <Container>
             <Typography variant="h2">Inquire</Typography>
 
-            <Box component='form' onSubmit={handleSubmit}>
+            <Box component='form' onSubmit={(e) => {
+                console.log(e)
+                handleSubmit(e)
+                }}>
         <FormControl
         
         sx={{
-            width: '40vw'
+            width: '60vw'
         }}
 
         >
@@ -121,6 +128,7 @@ export default function Inquire() {
             <TextField variant="standard" label="Getting Ready Location" name="readyLocation" required/>
             <TextField variant="standard" label="Event Venue" name="venueLocation" required/>
             <TextField variant="standard" label="Time Makeup Needs To Be Completed" name="timeToComplete" required/>
+            <TextField variant="standard" label="Will You Need A Trial?" name="needATrial" required/>
             <TextField variant="standard" label="How Did You Hear About Me?" name="howDidYouHear"/>
             <TextField variant="standard" label="Details, Questions, Notes" name="detailsQuestionsNotes"/>
             <Button 
@@ -132,7 +140,8 @@ export default function Inquire() {
                     my: '2vw',
                     mx: '10vw',
                 }}
-            >Submit</Button>
+                type="submit"
+                >Submit</Button>
             
         </FormControl>
         </Box>

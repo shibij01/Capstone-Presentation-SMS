@@ -6,32 +6,95 @@ const IGMedia = require("../models/media");
 const IGTokenTracker = require("../models/tokenTracker");
 const { all } = require("../routes/muaRoutes");
 const nodemailer = require("nodemailer");
+const Inquiry = require("../models/inquiry");
 //Import dotenv for private info
 require("dotenv").config();
 
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'cakedbackendserver@gmail.com',
-        
-    }
-});
+
 
 exports.createInquiry = async (req, res) => {
 
+    try {
+
+    const inquiryType = req.body.inquiryType;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const phoneNumber = req.body.phoneNumber;
+    const numberNeedingMakeup = req.body.numberNeedingMakeup;
+    const eventDate = req.body.eventDate;
+    const readyLocation = req.body.readyLocation;
+    const venueLocation = req.body.venueLocation;
+    const timeToComplete = req.body.timeToComplete;
+    const needATrial = req.body.needATrial;
+    const howDidYouHear = req.body.howDidYouHear;
+    const detailsQuestionsNotes = req.body.detailsQuestionsNotes;
+
+    const newInquiry = new Inquiry({
+        inquiryType: inquiryType,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        numberNeedingMakeup: numberNeedingMakeup,
+        eventDate: eventDate,
+        readyLocation: readyLocation,
+        venueLocation: venueLocation,
+        timeToComplete: timeToComplete,
+        needATrial: needATrial,
+        howDidYouHear: howDidYouHear,
+        detailsQuestionsNotes: detailsQuestionsNotes
+    });
+    console.log(newInquiry)
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'cakedbackendserver@gmail.com',
+            pass: process.env.EMAIL_SERVER_PASSWORD
+        }
+    });
+
     const message = {
-        from: req.body.email,
-        to: "kims email",
-        subject: `${req.body.inquiryType} Inquiry: ${req.body.firstName} ${req.body.lastName}`,
+        from: 'cakedbackendserver@gmail.com',
+        to: "spencer.holt1214@gmail.com",
+        subject: `${inquiryType} Inquiry: ${firstName} ${lastName}`,
         html: `
-            <h2> ${req.body.inquiryType} Inquiry from ${req.body.firstName} ${req.body.lastName}</h2>
-            <br/>
-            <p> Email: ${req.body.email} </p>
-            
+            <h1>${inquiryType} Inquiry: ${firstName} ${lastName}</h1>
+            <p> Email: ${email} </p>
+            <p> Phone Number: ${phoneNumber} </p>
+            <p> How many people will need makeup: ${numberNeedingMakeup} </p>
+            <p> Event Date: ${eventDate} </p>
+            <p> Ready Location: ${readyLocation} </p>
+            <p> Venue Location: ${venueLocation} </p>
+            <p> Time to Complete: ${timeToComplete} </p>
+            <p> Do you need a Trial?: ${needATrial} </p>
+            <p> How did you hear about Me?: ${howDidYouHear} </p>
+            <p> Details, Questions, Notes: ${detailsQuestionsNotes} </p>
         `
-    }
+    };
+
+transporter.sendMail(message, async function(error, info) {
+
+        if (error) {
+            console.log(error);
+        
+        } else {
+            console.log(`Email sent: ${info.response}`);
+            
+        }
+    })
+    
+    return res.status(200).json('Email Sent Successfully!')
+
+} catch (err) {
+    
+    return res.status(500).json('Email Not Sent Successfully!', err.message)
 }
+}
+
+
 
 
 
@@ -73,7 +136,7 @@ exports.getIGMedia = async (req,res) => {
             //calculate difference for token
             tokenDiffInMs = nowDate.getTime() - tokenFound.tokenDateEntered.getTime();
             tokenDiffInDays = tokenDiffInMs / (1000 * 60 * 60 * 24); 
-             
+            
             //refresh Token
             if (tokenDiffInDays >= refreshTokenLimit)
             {
