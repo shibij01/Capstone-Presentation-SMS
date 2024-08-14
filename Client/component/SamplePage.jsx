@@ -1,4 +1,8 @@
-import { Button, Container, Typography, ImageList, ImageListItem} from "@mui/material"
+import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
+import Typography from "@mui/material/Typography"
+import ImageList from "@mui/material/ImageList"
+import ImageListItem from "@mui/material/ImageListItem"
 
 export default function SamplePage(){
     let imageList = [
