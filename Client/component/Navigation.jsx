@@ -3,7 +3,7 @@ import ButtonGroup from "@mui/material/ButtonGroup"
 import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
 import Box from "@mui/material/Box"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 export default function Navigation(){
 
@@ -18,13 +18,13 @@ export default function Navigation(){
         <Divider orientation="horizontal" variant="fullWidth" flexItem />
         <Link to="/about">About</Link>
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
-            <Button href="/" >HOME</Button>
-            <Button href="/portfolio"> PORTFOLIO</Button>
-            <Button href="/weddings">WEDDINGS</Button>
-            <Button href="/editorials">EDITORIALS</Button>
-            <Button href="/about"><Link to="/about">About</Link></Button>
-            <Button href="/inquire"><Link to="/inquire">INQUIRE</Link></Button>
-            <Button href="/services">SERVICES</Button>
+            <Button><NavLink to="/">HOME</NavLink></Button>
+            <Button><NavLink to="/portfolio">PORTFOLIO</NavLink></Button>
+            <Button><NavLink to="/weddings">WEDDINGS</NavLink></Button>
+            <Button><NavLink to="/editorials">EDITORIALS</NavLink></Button>
+            <Button><NavLink to="/about">About</NavLink></Button>
+            <Button><NavLink to="/inquire">INQUIRE</NavLink></Button>
+            <Button><NavLink to="/services">SERVICES</NavLink></Button>
         </ButtonGroup>
         </Box>
         </>
