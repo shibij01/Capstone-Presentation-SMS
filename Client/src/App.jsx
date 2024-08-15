@@ -31,12 +31,12 @@ function App( {children} ) {
         <Routes>
             <Route path='samplepage' element={<SamplePage />} /> 
             <Route path='/' element={<Home />} /> 
-            <Route path='portfolio' element={<Portfolio />} /> 
-            <Route path='weddings' element={<Weddings />} /> 
-            <Route path='about' element={<About />} />           
-            <Route path='inquire' element={<Inquire />} />
-            <Route path='services' element={<Services />} />
-            <Route path='editorials' element={<Editorials />} />
+            <Route path='/portfolio' element={<Portfolio />} /> 
+            <Route path='/weddings' element={<Weddings />} /> 
+            <Route path='/about' element={<About />} />           
+            <Route path='/inquire' element={<Inquire />} />
+            <Route path='/services' element={<Services />} />
+            <Route path='/editorials' element={<Editorials />} />
         </Routes>
         <Footer />
       </BrowserRouter>

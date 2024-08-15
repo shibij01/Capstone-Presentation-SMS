@@ -17,12 +17,12 @@ export default function Navigation(){
         <Divider orientation="horizontal" variant="fullWidth" flexItem />
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
             <Button href="/" >HOME</Button>
-            <Button href="portfolio">PORTFOLIO</Button>
-            <Button href="weddings">WEDDINGS</Button>
-            <Button href="editorials">EDITORIALS</Button>
-            <Button href="about">ABOUT</Button>
-            <Button href="inquire">INQUIRE</Button>
-            <Button href="services">SERVICES</Button>
+            <Button href="/portfolio">PORTFOLIO</Button>
+            <Button href="/weddings">WEDDINGS</Button>
+            <Button href="/editorials">EDITORIALS</Button>
+            <Button href="/about">ABOUT</Button>
+            <Button href="/inquire">INQUIRE</Button>
+            <Button href="/services">SERVICES</Button>
         </ButtonGroup>
         </Box>
         </>
