@@ -48,6 +48,7 @@ export function InquiryBox() {
 
 
 export default function Inquire() {
+    const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
     
     
     async function handleSubmit(e) {
@@ -83,7 +84,7 @@ export default function Inquire() {
         }
         console.log(body)
         
-        const response = await fetch("http://localhost:3000/cakedByKim/createInquiry", {
+        const response = await fetch(url+"/cakedByKim/createInquiry", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
