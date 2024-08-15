@@ -4,7 +4,10 @@ const bcrypt = require("bcrypt");
 const IGToken = require("../models/token");
 const IGMedia = require("../models/media");
 const IGTokenTracker = require("../models/tokenTracker");
-const { all } = require("../routes/muaRoutes");
+const AdminAccount = require("../models/adminAccount");
+const ServicesList = require("../models/servicesList");
+require("../routes/muaRoutes");
+const servicesList = require("../models/servicesList");
 
 //Import dotenv for private info
 require("dotenv").config();
@@ -39,7 +42,7 @@ exports.getIGMedia = async (req,res) => {
         let token = tokenFound.token;
         const tokenId = tokenFound._id;
         const gotToken = tokenFound._id !== null ? true : false;
-        const fieldList = 'id,media_url,media_type,timestamp';
+        const fieldList = 'id,media_url,media_type,timestamp,children{media_url}';
         
         if (gotToken)
         {   
@@ -75,7 +78,7 @@ exports.getIGMedia = async (req,res) => {
                 diffInMs = nowDate.getTime() - currentIGTokenTracker.tokenDateLastUsed.getTime();
                 diffInHours = diffInMs / (1000 * 60 * 60); 
             }
-            
+            diffInHours = 2
             //only fetch if longer than one hour or first run for token
             if (diffInHours >= 1 || !gotTracker)
             {
@@ -95,9 +98,9 @@ exports.getIGMedia = async (req,res) => {
                 //save media
                 for (let image of igImages)
                 {
-                    if (image.media_type == 'IMAGE')
+                    if (image.media_type == 'IMAGE' || image.media_type == 'CAROUSEL_ALBUM')
                     {
-                        await IGMedia.findOneAndUpdate({tokenId: tokenId, mediaId: image.id}, {tokenId: tokenId, mediaId: image.id, mediaURL: image.media_url, mediaTimestamp: image.timestamp, mediaUpdatedDate: nowDate}, {upsert: true});
+                        await IGMedia.findOneAndUpdate({tokenId: tokenId, mediaId: image.id}, {tokenId: tokenId, mediaId: image.id, mediaURL: image.media_url, mediaType: image.media_type, mediaTimestamp: image.timestamp, childrenURL: image.children?.data, mediaUpdatedDate: nowDate}, {upsert: true});
                     }
                 }
                 //update tracker
@@ -107,7 +110,7 @@ exports.getIGMedia = async (req,res) => {
             //retrieve latest pulled images
             let lastDate = gotTracker ? currentIGTokenTracker.tokenDateLastUsed : nowDate;
             const mediaList = await IGMedia.find({tokenId: tokenId, mediaUpdatedDate: { $gte: lastDate}});
-            
+
             return res.status(200).json(mediaList);
         }
         else {
@@ -121,3 +124,130 @@ exports.getIGMedia = async (req,res) => {
     }        
 }
 
+//Create Admin Account
+exports.createAdminAccount = async (req,res) => {
+    const saltRound = 10;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const password = req.body.password;
+    const username = req.body.username;
+    
+    //encrypt password before saving to db
+    bcrypt.hash(password, saltRound, async (err, hash) => {
+        
+        //populate values for new admin account
+        const newAdminAccount = new AdminAccount({firstName: firstName, lastName: lastName, username: username, password: hash, isActive: true});
+
+        try{
+            //save new admin account
+            await newAdminAccount.save();
+            // console.log(`Admin Account Created: firstName: ${firstName}, lastName: ${lastName}, username: ${username}, password: ${password}`);
+            //return admin account created 
+            return res.status(201).json("Admin Account Created!");        
+        }
+        catch (err){
+            //send error response
+            return res.status(500).json("Admin Account NOT Created!");
+        }
+        
+    });
+}
+
+//Login Admin
+exports.loginAdmin = async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    //Find admin account with a matching username
+    const adminFound = await AdminAccount.findOne({username: username});
+    const hashedPasswordFoundAdmin = adminFound.password;
+    const payload = {...req.body, adminId: adminFound._id};
+
+    bcrypt.compare(password, hashedPasswordFoundAdmin, (err,result) => {
+       
+        if (result){
+            // Make JWT and send response
+            const signedJWT = jwt.sign(payload, process.env.ENCRYPTKEY, {expiresIn: 36000});
+
+            return res.status(201).json({message: "Login Successful", token: signedJWT, adminId: payload.adminId, username: username, loggedIn: true});
+        }
+        else {
+            //send error response
+            return res.status(403).json({message: "Login Failed", token: null, adminId: payload.adminId, username: username, loggedIn: false});
+        }
+    });
+}
+
+exports.verifyToken = async (req, res) => {
+    
+    try{
+        const authToken = req.params.id;
+        const payload = authToken ? jwt.verify(authToken, process.env.ENCRYPTKEY) : undefined
+        // console.log('payload:', payload);
+        
+        if (payload)
+        {
+            return res.status(201).json({message: "Token Verified", token: authToken, adminId: payload.adminId, username: payload.username, loggedIn: true});
+        }   
+    }
+    catch (err){
+        const expiredToken = err.name == 'TokenExpiredError' ? true : false;
+        //send error response
+        if (expiredToken) {
+            return res.status(401).json({message: "Token Expired", token: null, adminId: null, username: null, loggedIn: false});
+        }
+        else {
+            return res.status(403).json({message: "Token Not Verified", token: null, adminId: null, username: null, loggedIn: false});
+        }
+    }
+
+}
+
+//Save Services List
+exports.saveServicesList = async (req,res) => {
+    const servicesListNum = req.body.servicesListNum;
+    const servicesListVerbiage = req.body.servicesListHeading;
+    const servicesListType = req.body.servicesListType;
+    const nowDate = Date.now();
+
+    try{
+        //save services list
+        await ServicesList.findOneAndUpdate({servicesListNum: servicesListNum},{servicesListHeading: servicesListHeading, servicesListUpdatedDate: nowDate, servicesListType: servicesListType}, {upsert: true});
+        //return status
+        return res.status(201).json("Services List Saved!");        
+    }
+    catch (err){
+        //send error response
+        return res.status(500).json({message: "Services List NOT Saved!", error: err});
+    }
+}
+
+exports.getServicesList = async (req,res) => {
+    try{
+        //save services list
+        const servicesList = await ServicesList.find();
+
+        console.log('SL', servicesList);
+        //return admin account created 
+        return res.status(201).json(servicesList);        
+    }
+    catch (err){
+        //send error response
+        return res.status(500).json({message: "Services List NOT Returned!", Error: err});
+    }
+}
+
+//Delete Services List
+exports.deleteServicesList = async (req,res) => {
+    try{
+        const servicesListNum = req.body.servicesListNum;
+        //delete services list
+        await ServicesList.findOneAndDelete({servicesListNum: servicesListNum});
+        //return status
+        return res.status(201).json("Services List Deleted!");        
+    }
+    catch (err){
+        //send error response
+        return res.status(500).json({message: "Services List NOT Deleted!", error: err});
+    }
+}

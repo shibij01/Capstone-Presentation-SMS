@@ -9,11 +9,14 @@ import Navigation from '../component/Navigation'
 import Footer from '../component/Footer'
 import Services from '../component/Services'
 import Editorials from '../component/Editorials'
+import Login from '../component/Login'
+import { AdminProvider } from './context/AdminContext'
 
 function App() {
   return (
     <>
-    <BrowserRouter>
+    <AdminProvider>
+      <BrowserRouter>
         <Navigation />
         <Routes>
             <Route path='samplepage' element={<SamplePage />} /> 
@@ -24,9 +27,11 @@ function App() {
             <Route path='inquire' element={<Inquire />} />
             <Route path='services' element={<Services />} />
             <Route path='editorials' element={<Editorials />} />
+            <Route path='login' element={<Login />} />
         </Routes>
         <Footer />
       </BrowserRouter>
+    </AdminProvider>
     </>
   )
 }
