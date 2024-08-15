@@ -3,6 +3,7 @@ import ButtonGroup from "@mui/material/ButtonGroup"
 import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
 import Box from "@mui/material/Box"
+import { Link } from "react-router-dom"
 
 export default function Navigation(){
 
@@ -15,6 +16,7 @@ export default function Navigation(){
         
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
         <Divider orientation="horizontal" variant="fullWidth" flexItem />
+        <Link to="/about">About</Link>
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
             <Button href="/" >HOME</Button>
             <Button href="/portfolio">PORTFOLIO</Button>
