@@ -22,7 +22,8 @@ export default function Navigation(){
             <Button href="/portfolio">PORTFOLIO</Button>
             <Button href="/weddings">WEDDINGS</Button>
             <Button href="/editorials">EDITORIALS</Button>
-            <Button href="/about">ABOUT</Button>
+            <Link to="/about">About</Link>
+            {/* <Button href="/about">ABOUT</Button> */}
             <Button href="/inquire">INQUIRE</Button>
             <Button href="/services">SERVICES</Button>
         </ButtonGroup>
