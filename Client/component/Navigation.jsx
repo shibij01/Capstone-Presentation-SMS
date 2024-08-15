@@ -19,12 +19,11 @@ export default function Navigation(){
         <Link to="/about">About</Link>
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
             <Button href="/" >HOME</Button>
-            <Button href="/portfolio">PORTFOLIO</Button>
+            <Button href="/portfolio"> PORTFOLIO</Button>
             <Button href="/weddings">WEDDINGS</Button>
             <Button href="/editorials">EDITORIALS</Button>
-            <Link to="/about">About</Link>
-            {/* <Button href="/about">ABOUT</Button> */}
-            <Button href="/inquire">INQUIRE</Button>
+            <Button href="/about"><Link to="/about">About</Link></Button>
+            <Button href="/inquire"><Link to="/inquire">INQUIRE</Link></Button>
             <Button href="/services">SERVICES</Button>
         </ButtonGroup>
         </Box>
