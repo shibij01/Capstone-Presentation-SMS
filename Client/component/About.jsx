@@ -1,6 +1,5 @@
 import { Container, Typography, Box } from "@mui/material";
 import KimColesPortrait from "../src/images/KimColesPortrait.jpg";
-import "./About.css"; 
 
 export default function About() {
   return (
