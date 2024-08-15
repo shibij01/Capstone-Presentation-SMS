@@ -4,6 +4,12 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Typography from "@mui/material/Typography";
 import homeBanner from "../src/images/homeBanner.jpg"
+import sample1 from "../src/images/sample1.jpg"
+import sample2 from "../src/images/sample2.jpg"
+import sample3 from "../src/images/sample3.jpg"
+import sample4 from "../src/images/sample4.jpg"
+import sample5 from "../src/images/sample5.jpg"
+import sample6 from "../src/images/sample6.jpg"
 
 export default function Home() {
 
@@ -31,32 +37,32 @@ export default function Home() {
         {
             'id': 1,
             'title': 'sample 1',
-            'url': '../src/images/sample1.jpg'
+            'url': sample1
         },
         {
             'id': 2,
             'title': 'sample 2',
-            'url': '../src/images/sample2.jpg'
+            'url': sample2
         },
         {
             'id': 3,
             'title': 'sample 3',
-            'url': '../src/images/sample3.jpg'
+            'url': sample3
         },
         {
             'id': 4,
             'title': 'sample 4',
-            'url': '../src/images/sample4.jpg'
+            'url': sample4
         },
         {
             'id': 5,
             'title': 'sample 5',
-            'url': '../src/images/sample5.jpg'
+            'url': sample5
         },
         {
             'id': 6,
             'title': 'sample 6',
-            'url': '../src/images/sample6.jpg'
+            'url': sample6
         },
     ]
 
