@@ -4,6 +4,10 @@ import ImageList from "@mui/material/ImageList"
 import ImageListItem from "@mui/material/ImageListItem"
 import { Box } from "@mui/material";
 import EditorialBanner from "../src/images/EditorialBanner.jpg"
+import Editorial1 from "../src/images/Editorials1.jpg"
+import Editorial2 from "../src/images/Editorials2.jpg"
+import Editorial3 from "../src/images/Editorials3.jpg"
+
 import ModalImage from "react-modal-image";
 
 export default function Editorials() {
@@ -12,17 +16,17 @@ export default function Editorials() {
         {
           "id": 1,
           "title": "Image 1",
-          "url": "../src/images/Editorials1.jpg"
+          "url": Editorial1
         },
         {
           "id": 2,
           "title": "Image 2",
-          "url": "../src/images/Editorials2.jpg"
+          "url": Editorial2
         },
         {
           "id": 3,
           "title": "Image 3",
-          "url": "../src/images/Editorials3.jpg"
+          "url": Editorial3
         }
     ]
 

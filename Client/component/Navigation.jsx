@@ -16,7 +16,6 @@ export default function Navigation(){
         
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
         <Divider orientation="horizontal" variant="fullWidth" flexItem />
-        <Link to="/about">About</Link>
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
             <Button><NavLink to="/">HOME</NavLink></Button>
             <Button><NavLink to="/portfolio">PORTFOLIO</NavLink></Button>

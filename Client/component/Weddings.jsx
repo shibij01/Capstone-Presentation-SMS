@@ -4,6 +4,9 @@ import ImageList from "@mui/material/ImageList"
 import ImageListItem from "@mui/material/ImageListItem"
 import { Box } from "@mui/material";
 import WeddingBanner from "../src/images/WeddingBanner.jpg"
+import WeddingImage3 from "../src/images/Wedding3.jpg"
+import WeddingImage4 from "../src/images/Wedding4.jpg"
+import WeddingImage5 from "../src/images/Wedding5.jpg"
 import ModalImage from "react-modal-image";
 
 export default function Weddings() {
@@ -12,17 +15,17 @@ export default function Weddings() {
         {
           "id": 3,
           "title": "Image 3",
-          "url": "../src/images/Wedding3.jpg"
+          "url": WeddingImage3
         },
         {
           "id": 4,
           "title": "Image 4",
-          "url": "../src/images/Wedding4.jpg"
+          "url": WeddingImage4
         },
         {
           "id": 5,
           "title": "Image 5",
-          "url": "../src/images/Wedding5.jpg"
+          "url": WeddingImage5
         }
     ]
 
