@@ -217,9 +217,9 @@ export default function Services() {
         document.getElementById(textSHId).value = "";        
         document.getElementById(textSDId).value = "";
         document.getElementById(textSSHId).value = "";
-        document.getElementById(formId).style.display = "none";
         document.getElementById(cancelId).style.display = "none";
         document.getElementById(saveId).style.display = "none";
+        document.getElementById(formId).style.display = "none";
 
     }
 
@@ -280,7 +280,7 @@ export default function Services() {
                         <Typography id={'Heading_' + service.servicesListNum} key={'Heading_' + service.servicesListNum} sx={{pb:1, fontSize: "1.2em"}}>{service.servicesListHeading}</Typography>
                         </div>
                         <div id={"SD_" + service.servicesListNum} key={"SD_" + service.servicesListNum} style={{width: 400}}>
-                            <Typography id={'Description_' + service.servicesListNum} key={'Description_' + service.servicesListNum} sx={{sm: "75%", fontWeight: "italic"}} >{service.servicesListDescription}</Typography>
+                            <Typography id={'Description_' + service.servicesListNum} key={'Description_' + service.servicesListNum} sx={{sm: "75%"}} >{service.servicesListDescription}</Typography>
                         </div>
                         <div id={"SSH_" + service.servicesListNum} key={"SSH_" + service.servicesListNum} style={{width: 400}}>
                             <List>
@@ -292,31 +292,31 @@ export default function Services() {
                     )
                 }
             {isAdminLoggedIn && 
-            <>
+            
             <Paper id={"newFormId_" + item.abbrev} sx={{ display: "none", mb: 5}} >
             <form method="post"  style={{width: 400, color: "GrayText"}}>
             <fieldset style={{ marginLeft: "40%", marginRight: "40%", marginBottom: 25, alignContent: "center", width: 400, p: 25}}>
                 <legend>New Entry:</legend>
-                <label htmlFor={"newIdSH_"+ item.abbrev}>Heading:</label><br/>
-                <input type="text" id={"newIdSH_"+ item.abbrev} name="heading" style={{width: 400, padding: 2, margin: 4}}/><br/><br/>
-                <label htmlFor={"newIdSD_"+ item.abbrev}>Description:</label><br/>
-                <textarea type="text" id={"newIdSD_"+ item.abbrev} name="description" style={{height: 75, width: 400, padding: 2, margin: 4}}/><br/><br/>
-                <label htmlFor={"newIdSSH_"+ item.abbrev}>SubHeading:</label><br/>
-                <textarea type="text" id={"newIdSSH_"+ item.abbrev} name="subheading" style={{height: 100, width: 400, padding: 2, margin: 4}}/><br/><br/>
+                <label >Heading:</label><br/>
+                <input type="text" id={"newIdSH_"+ item.abbrev} name="heading" style={{width: 400, padding: 2, margin: 4, fontFamily: "Quicksand", fontSize: "0.9em"}}/><br/><br/>
+                <label >Description:</label><br/>
+                <textarea type="text" id={"newIdSD_"+ item.abbrev} name="description" style={{height: 75, width: 400, padding: 2, margin: 4, fontFamily: "Quicksand", fontSize: "0.9em"}}/><br/><br/>
+                <label >SubHeading:</label><br/>
+                <textarea type="text" id={"newIdSSH_"+ item.abbrev} name="subheading" style={{height: 100, width: 400, padding: 2, margin: 4, fontFamily: "Quicksand", fontSize: "0.9em"}}/><br/><br/>
                 <Tooltip title="Cancel">
-                <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleCancelAdd(e, item.abbrev)}>
+                <IconButton id={"ibaddcancel_s" + item.abbrev} color="secondary" sx={{float:"right"}} onClick={(e) => handleCancelAdd(e, item.abbrev)}>
                     <ClearIcon id={"addcancel_s" + item.abbrev} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2}} />
                 </IconButton>
                 </Tooltip>
                 <Tooltip title="Save">
-                <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleSaveAdd(e, item.abbrev, item.type)}>
+                <IconButton id={"ibaddsave_s" + item.abbrev} color="secondary" sx={{float:"right"}} onClick={(e) => handleSaveAdd(e, item.abbrev, item.type)}>
                     <CheckIcon id={"addsave_s" + item.abbrev} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2}}/>
                 </IconButton>
                 </Tooltip>
             </fieldset>
             </form>
             </Paper>
-            </>
+            
             }
         </Fragment>
                 })  
