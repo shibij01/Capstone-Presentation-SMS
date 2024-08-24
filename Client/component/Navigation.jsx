@@ -12,7 +12,7 @@ import AdminContext from "../src/context/AdminContext";
 export default function Navigation(){
     const adminContext = useContext(AdminContext);
     const isAdminLoggedIn = adminContext.loggedIn; 
-  
+    
     const handleLogout = () => {
         adminContext.logOut();
         sessionStorage.removeItem("token");
@@ -28,8 +28,9 @@ export default function Navigation(){
         </Tooltip>
         </Container> }
 
-        <img src="/images/CakedByKim.jpg" height={100} width={100} />
-        <Typography color="secondary" sx={{mt: 2, px: 0, float: 'right'}}>
+        <Typography color="secondary" sx={{mt: 2, px: 3, float: 'left'}} style={{fontFamily: "Abril Fatface", color: "gray", fontSize: 28}}>Caked. by Kim</Typography>
+        <img src="/images/Nav.jpg" height={100} width={100}/>
+        <Typography color="secondary" sx={{mt: 2, px: 3, float: 'right'}}>
         Kim Coles <br/> Makeup Artist | Esthetician
         </Typography>
         

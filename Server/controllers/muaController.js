@@ -7,7 +7,6 @@ const IGTokenTracker = require("../models/tokenTracker");
 const AdminAccount = require("../models/adminAccount");
 const ServicesList = require("../models/servicesList");
 require("../routes/muaRoutes");
-const servicesList = require("../models/servicesList");
 
 //Import dotenv for private info
 require("dotenv").config();
@@ -206,13 +205,15 @@ exports.verifyToken = async (req, res) => {
 //Save Services List
 exports.saveServicesList = async (req,res) => {
     const servicesListNum = req.body.servicesListNum;
-    const servicesListVerbiage = req.body.servicesListHeading;
+    const servicesListHeading = req.body.servicesListHeading;
+    const servicesListDescription = req.body.servicesListDescription;
+    const servicesListSubHeadings = req.body.servicesListSubHeadings;
     const servicesListType = req.body.servicesListType;
     const nowDate = Date.now();
 
     try{
         //save services list
-        await ServicesList.findOneAndUpdate({servicesListNum: servicesListNum},{servicesListHeading: servicesListHeading, servicesListUpdatedDate: nowDate, servicesListType: servicesListType}, {upsert: true});
+        await ServicesList.findOneAndUpdate({servicesListNum: servicesListNum},{servicesListHeading: servicesListHeading, servicesListDescription: servicesListDescription, servicesListSubHeadings: servicesListSubHeadings, servicesListUpdatedDate: nowDate, servicesListType: servicesListType}, {upsert: true});
         //return status
         return res.status(201).json("Services List Saved!");        
     }
@@ -227,7 +228,6 @@ exports.getServicesList = async (req,res) => {
         //save services list
         const servicesList = await ServicesList.find();
 
-        console.log('SL', servicesList);
         //return admin account created 
         return res.status(201).json(servicesList);        
     }

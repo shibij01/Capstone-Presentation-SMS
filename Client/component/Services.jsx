@@ -1,9 +1,10 @@
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
-import ServicesBanner from "../src/images/ServicesBanner.jpg";
+import { Box, Paper } from "@mui/material";
+import ServicesBanner from "../src/images/ServiceBanner.jpg";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
 import IconButton from "@mui/material/IconButton"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,15 +14,15 @@ import AddIcon from '@mui/icons-material/Add';
 import Tooltip from '@mui/material/Tooltip';
 import { useContext, useEffect, useState } from "react"
 import AdminContext from "../src/context/AdminContext";
+import {Fragment} from "react"
+
 
 export default function Services() {
     const adminContext = useContext(AdminContext);
     const isAdminLoggedIn = adminContext.loggedIn; 
     const [servicesList, setServicesList] = useState([]);
     const [slChanged, setSLChanged] = useState(true);
-    const [muaServicesList, setMuaServicesList] = useState([]);
-    const [estiServicesList, setEstiServicesList] = useState([]);
-    const servicesType = ['Makeup Services','Esthetician Services'];
+    const servicesType = [{abbrev: "MUA", type: "Makeup Services"},{abbrev: "ESTI", type: "Esthetician Services"}];
 
     useEffect(() => {
         getServicesList();
@@ -37,12 +38,10 @@ export default function Services() {
             });
 
         const data = await response.json();
-  console.log('data', data)
-        setServicesList(data);
-        setMuaServicesList(data.filter(x => x.servicesListType === servicesType[0]));
-        setEstiServicesList(data.filter(x => x.servicesListType === servicesType[1]));
-        setSLChanged(false);
         
+        setServicesList(data);
+        setSLChanged(false);
+
     }
 
     const handleEdit = (e, servicesListNum) => {
@@ -53,8 +52,15 @@ export default function Services() {
         const saveId = 'save_s' + servicesListNum;
         const cancelId = 'cancel_s' + servicesListNum;
 
-        document.getElementById(textId).contentEditable = "true";
-        document.getElementById(textId).focus();
+        document.getElementById("SH_" + textId).contentEditable = "true";
+        document.getElementById("SD_" + textId).contentEditable = "true";
+        document.getElementById("SSH_" + textId).contentEditable = "true";
+        document.getElementById("SH_" + textId).style.outline = "2px solid blue";
+        document.getElementById("SD_" + textId).style.outline = "2px solid blue";
+        document.getElementById("SD_" + textId).style.marginTop = "15px";
+        document.getElementById("SSH_" + textId).style.outline = "2px solid blue";
+        document.getElementById("SSH_" + textId).style.marginTop = "15px";
+        document.getElementById("SH_" + textId).focus();
         document.getElementById(editId).style.display = "none";
         document.getElementById(deleteId).style.display = "none";
         document.getElementById(saveId).style.display = "inline";
@@ -63,62 +69,52 @@ export default function Services() {
     }
 
     const handleSave = async (e,servicesListNum) => {
-        
         const textId = servicesListNum;
         const editId = 'edit_s' + servicesListNum;
         const deleteId = 'delete_s' + servicesListNum;
         const saveId = 'save_s' + servicesListNum;
         const cancelId = 'cancel_s' + servicesListNum;
-        const newValue = document.getElementById(textId).innerText;
-        const oldValue = (servicesList.filter(x => x.servicesListNum == textId)[0]).servicesListHeading;
+        const newValueSH = document.getElementById("SH_" + textId).innerText;
+        const newValueSD = document.getElementById("SD_" + textId).innerText;
+        const newValueSSH = document.getElementById("SSH_" + textId).innerText;
+        const newSSH = newValueSSH.split('\n');
         
-        if (oldValue != newValue)
-        {
-            const body = {servicesListNum: textId, servicesListHeading: newValue};
+        const body = {servicesListNum: textId, servicesListHeading: newValueSH, servicesListDescription: newValueSD, servicesListSubHeadings: newSSH};
 
-            const response = await fetch("http://localhost:3000/cakedByKim/saveServicesList", {
-                method: "POST",
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
-        
-            const data = await response.json();
-
-            if (data.message == "Services List NOT Saved!")
-            {
-                alert("An Error Occurred: Update Was Not Saved.");
+        const response = await fetch("http://localhost:3000/cakedByKim/saveServicesList", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': "application/json"
             }
-            else
-            {
-                setSLChanged(true);
-            }    
+        });
+    
+        const data = await response.json();
 
+        if (data.message == "Services List NOT Saved!")
+        {
+            alert("An Error Occurred: Update Was Not Saved.");
         }
-        
-        document.getElementById(textId).contentEditable = "false";
+        else
+        {
+            setSLChanged(true);
+        }
+
+        document.getElementById("SH_" + textId).contentEditable = "false";
+        document.getElementById("SD_" + textId).contentEditable = "false";
+        document.getElementById("SSH_" + textId).contentEditable = "false";
+        document.getElementById("SH_" + textId).style.outline = "none";
+        document.getElementById("SD_" + textId).style.outline = "none";
+        document.getElementById("SSH_" + textId).style.outline = "none";
         document.getElementById(saveId).style.display = "none";
         document.getElementById(cancelId).style.display = "none";
         document.getElementById(editId).style.display = "inline";
         document.getElementById(deleteId).style.display = "inline";
+        window.location.reload();
     }
 
-    const handleCancel = (e,servicesListNum) => {
-        
-        const textId = servicesListNum;
-        const editId = 'edit_s' + servicesListNum;
-        const deleteId = 'delete_s' + servicesListNum;
-        const saveId = 'save_s' + servicesListNum;
-        const cancelId = 'cancel_s' + servicesListNum;
-        const oldValue = (servicesList.filter(x => x.servicesListNum == textId)[0]).servicesListHeading;
-
-        document.getElementById(textId).contentEditable = "false";
-        document.getElementById(textId).innerText = oldValue;
-        document.getElementById(cancelId).style.display = "none";
-        document.getElementById(saveId).style.display = "none";
-        document.getElementById(editId).style.display = "inline";
-        document.getElementById(deleteId).style.display = "inline";
+    const handleCancel = () => {
+        window.location.reload();
     }
 
     const handleDelete = async (e,servicesListNum) => {
@@ -126,7 +122,7 @@ export default function Services() {
         const textId = servicesListNum;
         const editId = 'edit_s' + servicesListNum;
         const deleteId = 'delete_s' + servicesListNum;
-        
+
         const body = {servicesListNum: textId};
 
         const response = await fetch("http://localhost:3000/cakedByKim/deleteServicesList", {
@@ -147,43 +143,45 @@ export default function Services() {
             setSLChanged(true);
         }
 
-        document.getElementById(textId).style.display = "none";
         document.getElementById(editId).style.display = "none";
         document.getElementById(deleteId).style.display = "none";
+    
     }
 
-    const handleAdd = (e,slType) => {
-        const textId = "newTextId_" + slType;
-        const saveId = "addsave_s" + slType;
-        const cancelId = "addcancel_s" + slType;
+    const handleAdd = (e,abbrev) => {
+        
+        const formId = "newFormId_" + abbrev;
+        const saveId = "addsave_s" + abbrev;
+        const cancelId = "addcancel_s" + abbrev;
         
         // console.log(`ADD: TextId: ${textId}, SaveId: ${saveId}, CancelId: ${cancelId}`);
-
-        document.getElementById(textId).style.display = "inline";
-        document.getElementById(textId).contentEditable = "true";
-        document.getElementById(textId).focus();
+        
+        document.getElementById(formId).style.display = "inline";
         document.getElementById(saveId).style.display = "inline";
         document.getElementById(cancelId).style.display = "inline";
 
     }
 
-    const handleSaveAdd = async (e,servicesListType) => {
+    const handleSaveAdd = async (e,abbrev,type) => {
         
-        const textId = 'newTextId_' + servicesListType;
-        const saveId = 'addsave_s' + servicesListType;
-        const cancelId = 'addcancel_s' + servicesListType;
-        const newValue = document.getElementById(textId).value;
+        const formId = "newFormId_" + abbrev;
+        const textSHId = 'newIdSH_' + abbrev;
+        const textSDId = 'newIdSD_' + abbrev;
+        const textSSHId = 'newIdSSH_' + abbrev;
+        const saveId = 'addsave_s' + abbrev;
+        const cancelId = 'addcancel_s' + abbrev;
+        const newSHValue = document.getElementById(textSHId).value;
+        const newSDValue = document.getElementById(textSDId).value;
+        const newSSHValue = document.getElementById(textSSHId).value;
+        const newSSH = newSSHValue.split('\n');
         const maxValue = Math.max(...servicesList.map(x => x.servicesListNum), 0)+1;
-        const slType = servicesListType == "MUA" ? servicesType[0] : servicesType[1];
-        // console.log('MaxValue',maxValue);
-        // console.log('newValue',newValue);
-        // console.log('slType',slType);
-        document.getElementById(textId).contentEditable = "false";
-        document.getElementById(textId).style.display = "none"; 
+
+        document.getElementById(formId).style.display = "none";
         document.getElementById(saveId).style.display = "none";
         document.getElementById(cancelId).style.display = "none";
         
-        const body = {servicesListNum: maxValue, servicesListHeading: newValue, servicesListType: slType};
+        const body = {servicesListNum: maxValue, servicesListHeading: newSHValue, servicesListDescription: newSDValue, servicesListSubHeadings: newSSH, servicesListType: type};
+
         const response = await fetch("http://localhost:3000/cakedByKim/saveServicesList", {
             method: "POST",
             body: JSON.stringify(body),
@@ -204,18 +202,25 @@ export default function Services() {
         }    
 }
 
-    const handleCancelAdd = (e,servicesListType) => {
+    const handleCancelAdd = (e,abbrev) => {
         
-        const textId = 'newTextId_' + servicesListType;
-        const saveId = 'addsave_s' + servicesListType;
-        const cancelId = 'addcancel_s' + servicesListType;
+        const formId = "newFormId_" + abbrev;
+        const textSHId = 'newIdSH_' + abbrev;
+        const textSDId = 'newIdSD_' + abbrev;
+        const textSSHId = 'newIdSSH_' + abbrev;
+        
+        const saveId = 'addsave_s' + abbrev;
+        const cancelId = 'addcancel_s' + abbrev;
         
         // console.log(`CANCEL Add: CancelId: ${cancelId} saveId: ${saveId} editId: ${editId} deleteId: ${deleteId}, textid: ${textId}, oldValue: ${oldValue}`)
-        document.getElementById(textId).value = "";
-        document.getElementById(textId).contentEditable = "false";
-        document.getElementById(textId).style.display = "none";
+
+        document.getElementById(textSHId).value = "";        
+        document.getElementById(textSDId).value = "";
+        document.getElementById(textSSHId).value = "";
+        document.getElementById(formId).style.display = "none";
         document.getElementById(cancelId).style.display = "none";
         document.getElementById(saveId).style.display = "none";
+
     }
 
     return (
@@ -233,135 +238,90 @@ export default function Services() {
                 boxShadow: 5
             }}
         > 
-        <Typography variant="h2" color="primary" ml={8}>Services</Typography>
+        <Typography variant="h2" color="secondary" ml={8}>Services</Typography>
         </Box>
-        { 
-                muaServicesList.length > 0 && 
-                <>
-                <Typography variant="h4" color="secondary" ml={8}>{servicesType[0]}
-                    {isAdminLoggedIn && 
-                    <Tooltip title="Add New">
-                    <IconButton color="secondary"  onClick={(e) => handleAdd(e, "MUA")}>
-                        <AddIcon id={"add_sMUA"} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2, ml: 1}}/>
-                    </IconButton>
-                    </Tooltip>}
-                </Typography> 
-                </>
-        }
-        <List>
-        {
-            muaServicesList.length > 0 && muaServicesList.map((muaService) => {
-                return <ListItem key={muaService._id} disableGutters> 
-                        <ListItemText key={muaService._id + "_lti"} sx={{mx:10, px:2, pb:1}}> 
+        {servicesType.map((item, index) => {
+            return <Fragment key={index}>
+            <Typography variant="h4" color="secondary" ml={8} key={index}>{item.type}
+            {isAdminLoggedIn && 
+            <Tooltip title="Add New">
+            <IconButton color="secondary"  onClick={(e) => handleAdd(e, item.abbrev)}>
+                <AddIcon id={"add_s"+ item.abbrev} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2, ml: 1}}/>
+            </IconButton>
+            </Tooltip>}
+            </Typography>
+            {servicesList.length > 0 && servicesList.filter(sl => sl.servicesListType == item.type).map((service) => 
+                    <ListItem key={service._id} disableGutters> 
+                    <ListItemText key={service._id + "_lti"} sx={{mx:10, px:2, pb:1}}>
                         {isAdminLoggedIn && 
                         <>
                         <Tooltip title="Delete">
-                        <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleDelete(e, muaService.servicesListNum)}>
-                            <DeleteIcon id={"delete_s" + muaService.servicesListNum} fontSize="medium"/>
+                        <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleDelete(e, service.servicesListNum)}>
+                            <DeleteIcon id={"delete_s" + service.servicesListNum} fontSize="medium"/>
                         </IconButton>
                         </Tooltip>
-                        <Tooltip title="Edit">
-                        <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleEdit(e, muaService.servicesListNum)}>
-                            <EditIcon id={"edit_s" + muaService.servicesListNum} fontSize="medium"/>
+                        <Tooltip title="Edit Service">
+                        <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleEdit(e, service.servicesListNum)}>
+                            <EditIcon id={"edit_s" + service.servicesListNum} fontSize="medium"/>
                         </IconButton>
                         </Tooltip>
                         <Tooltip title="Cancel">
-                        <IconButton id={"ibcancel_s" + muaService.servicesListNum} color="secondary" sx={{float:"right"}} onClick={(e) => handleCancel(e, muaService.servicesListNum)}>
-                            <ClearIcon id={"cancel_s" + muaService.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}} />
+                        <IconButton id={"ibcancel_s" + service.servicesListNum} color="secondary" sx={{float:"right"}} onClick={handleCancel}>
+                            <ClearIcon id={"cancel_s" + service.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}} />
                         </IconButton>
                         </Tooltip>
                         <Tooltip title="Save">
-                        <IconButton id={"ibsave_s" + muaService.servicesListNum} color="secondary" sx={{float:"right"}} onClick={(e) => handleSave(e, muaService.servicesListNum)}>
-                            <CheckIcon id={"save_s" + muaService.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}}/>
+                        <IconButton id={"ibsave_s" + service.servicesListNum} color="secondary" sx={{float:"right"}} onClick={(e) => handleSave(e, service.servicesListNum)}>
+                            <CheckIcon id={"save_s" + service.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}}/>
                         </IconButton>
                         </Tooltip>
-                        </>}
-                            <div id={muaService.servicesListNum} style={{width: 400}}>
-                                <span id={'Heading_' + muaService.servicesListNum}>{muaService.servicesListHeading}</span>
-                                <span id={'Description_' + muaService.servicesListNum}>{muaService.servicesListDescription}</span>
-                                <span id={'SubHeading_' + muaService.servicesListNum}><ul>{muaService.servicesListSubHeadings.map((subhead) => {<li>{subhead}</li>})}</ul></span>
-                            </div> 
+                        </>} 
+                        <div id={"SH_" + service.servicesListNum} key={"SH_" + service.servicesListNum} style={{width: 400}}>
+                        <Typography id={'Heading_' + service.servicesListNum} key={'Heading_' + service.servicesListNum} sx={{pb:1, fontSize: "1.2em"}}>{service.servicesListHeading}</Typography>
+                        </div>
+                        <div id={"SD_" + service.servicesListNum} key={"SD_" + service.servicesListNum} style={{width: 400}}>
+                            <Typography id={'Description_' + service.servicesListNum} key={'Description_' + service.servicesListNum} sx={{sm: "75%", fontWeight: "italic"}} >{service.servicesListDescription}</Typography>
+                        </div>
+                        <div id={"SSH_" + service.servicesListNum} key={"SSH_" + service.servicesListNum} style={{width: 400}}>
+                            <List>
+                            {service.servicesListSubHeadings.map((subhead, index) => <ListSubheader sx={{my:0, height: 40, fontSize: "1em"}} key={"sh_" + index}>{subhead}</ListSubheader>)}    
+                            </List>
+                        </div>
                         </ListItemText>
-                        </ListItem>
-            })        
+                    </ListItem>
+                    )
+                }
+            {isAdminLoggedIn && 
+            <>
+            <Paper id={"newFormId_" + item.abbrev} sx={{ display: "none", mb: 5}} >
+            <form method="post"  style={{width: 400, color: "GrayText"}}>
+            <fieldset style={{ marginLeft: "40%", marginRight: "40%", marginBottom: 25, alignContent: "center", width: 400, p: 25}}>
+                <legend>New Entry:</legend>
+                <label htmlFor={"newIdSH_"+ item.abbrev}>Heading:</label><br/>
+                <input type="text" id={"newIdSH_"+ item.abbrev} name="heading" style={{width: 400, padding: 2, margin: 4}}/><br/><br/>
+                <label htmlFor={"newIdSD_"+ item.abbrev}>Description:</label><br/>
+                <textarea type="text" id={"newIdSD_"+ item.abbrev} name="description" style={{height: 75, width: 400, padding: 2, margin: 4}}/><br/><br/>
+                <label htmlFor={"newIdSSH_"+ item.abbrev}>SubHeading:</label><br/>
+                <textarea type="text" id={"newIdSSH_"+ item.abbrev} name="subheading" style={{height: 100, width: 400, padding: 2, margin: 4}}/><br/><br/>
+                <Tooltip title="Cancel">
+                <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleCancelAdd(e, item.abbrev)}>
+                    <ClearIcon id={"addcancel_s" + item.abbrev} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2}} />
+                </IconButton>
+                </Tooltip>
+                <Tooltip title="Save">
+                <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleSaveAdd(e, item.abbrev, item.type)}>
+                    <CheckIcon id={"addsave_s" + item.abbrev} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2}}/>
+                </IconButton>
+                </Tooltip>
+            </fieldset>
+            </form>
+            </Paper>
+            </>
+            }
+        </Fragment>
+                })  
         }
-        <ListItem key="newMUAId" disableGutters> 
-        <ListItemText key="newMUAId_lti" sx={{mx:10, px:2, pb:1}}> 
-        <Tooltip title="Cancel">
-        <IconButton id={"ibaddcancel_sMUA"} color="secondary" sx={{float:"right"}} onClick={(e) => handleCancelAdd(e, "MUA")}>
-            <ClearIcon id={"addcancel_sMUA"} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}} />
-        </IconButton>
-        </Tooltip>
-        <Tooltip title="Save">
-        <IconButton id={"ibaddsave_sMUA"} color="secondary" sx={{float:"right"}} onClick={(e) => handleSaveAdd(e, "MUA")}>
-            <CheckIcon id={"addsave_sMUA"} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}}/>
-        </IconButton>
-        </Tooltip>
-        <input type="text" id="newTextId_MUA" style={{display: "none", width: 500, padding: 2,margin: 4, size: 10}}/>
-        </ListItemText>
-        </ListItem>
-        </List>
-        {
-                estiServicesList.length > 0 && 
-                <Typography variant="h4" color="secondary" ml={8}>{servicesType[1]}
-                {isAdminLoggedIn && <Tooltip title="Add New">
-                    <IconButton color="secondary"  onClick={(e) => handleAdd(e, "ESTI")}>
-                        <AddIcon id={"add_sESTI"} fontSize="medium" sx={{stroke: "darkgray", strokeWidth: 2, ml: 1}}/>
-                    </IconButton>
-                </Tooltip>}
-                </Typography>
-                
-        }
-        <List>
-        {
-            estiServicesList.length > 0 && estiServicesList.map((estiService) => {
-                return <ListItem key={estiService._id} disableGutters> 
-                        <ListItemText key={estiService._id + "_lti"} sx={{mx:10, px:2, pb:1}}>
-                        {isAdminLoggedIn && 
-                            <>
-                            <Tooltip title="Delete">
-                            <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleDelete(e, estiService.servicesListNum)}>
-                                <DeleteIcon id={"delete_s" + estiService.servicesListNum} fontSize="medium"/>
-                            </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Edit">
-                            <IconButton color="secondary" sx={{float:"right"}} onClick={(e) => handleEdit(e, estiService.servicesListNum)}>
-                                <EditIcon id={"edit_s" + estiService.servicesListNum} fontSize="medium"/>
-                            </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Cancel">
-                            <IconButton id={"ibcancel_s" + estiService.servicesListNum} color="secondary" sx={{float:"right"}} onClick={(e) => handleCancel(e, estiService.servicesListNum)}>
-                                <ClearIcon id={"cancel_s" + estiService.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}} />
-                            </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Save">
-                            <IconButton id={"ibsave_s" + estiService.servicesListNum}  color="secondary" sx={{float:"right"}} onClick={(e) => handleSave(e, estiService.servicesListNum)}>
-                                <CheckIcon id={"save_s" + estiService.servicesListNum} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}}/>
-                            </IconButton>
-                            </Tooltip>
-                            </>
-                        }
-                            <div id={estiService.servicesListNum} style={{width: 400}}>{estiService.servicesListHeading}</div> 
-                        </ListItemText>
-                 </ListItem>
-            })        
-        }
-        <ListItem key="newESTIId" disableGutters> 
-        <ListItemText key="newESTIId_lti" sx={{mx:10, px:2, pb:1}}> 
-        <Tooltip title="Cancel">
-        <IconButton id={"ibaddcancel_sESTI"} color="secondary" sx={{float:"right"}} onClick={(e) => handleCancelAdd(e, "ESTI")}>
-            <ClearIcon id={"addcancel_sESTI"} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}} />
-        </IconButton>
-        </Tooltip>
-        <Tooltip title="Save">
-        <IconButton id={"ibaddsave_sESTI"} color="secondary" sx={{float:"right"}} onClick={(e) => handleSaveAdd(e, "ESTI")}>
-            <CheckIcon id={"addsave_sESTI"} fontSize="medium" sx={{display: "none", stroke: "darkgray", strokeWidth: 2}}/>
-        </IconButton>
-        </Tooltip>
-        <input type="text" id="newTextId_ESTI" style={{display: "none", width: 500, padding: 2,margin: 4, size: 10}}/>
-        </ListItemText>
-        </ListItem>
-        </List>
+
         </>
     )
 }

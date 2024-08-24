@@ -3,26 +3,9 @@ import Typography from "@mui/material/Typography";
 import ImageList from "@mui/material/ImageList"
 import ImageListItem from "@mui/material/ImageListItem"
 import ModalImage from "react-modal-image";
+import imageList from "../src/assets/editorial.js"
 
 export default function Editorials() {
-
-    let imageList = [
-        {
-          "id": 1,
-          "title": "Image 1",
-          "url": "../src/images/Editorials1.jpg"
-        },
-        {
-          "id": 2,
-          "title": "Image 2",
-          "url": "../src/images/Editorials2.jpg"
-        },
-        {
-          "id": 3,
-          "title": "Image 3",
-          "url": "../src/images/Editorials3.jpg"
-        }
-    ]
 
     return (
         <>

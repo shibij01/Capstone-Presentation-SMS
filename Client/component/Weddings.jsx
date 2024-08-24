@@ -3,26 +3,9 @@ import Typography from "@mui/material/Typography";
 import ImageList from "@mui/material/ImageList"
 import ImageListItem from "@mui/material/ImageListItem"
 import ModalImage from "react-modal-image";
+import imageList from "../src/assets/wedding.js"
 
 export default function Weddings() {
-
-    let imageList = [
-        {
-          "id": 1,
-          "title": "Image 1",
-          "url": "../src/images/Wedding3.jpg"
-        },
-        {
-          "id": 2,
-          "title": "Image 2",
-          "url": "../src/images/Wedding4.jpg"
-        },
-        {
-          "id": 3,
-          "title": "Image 3",
-          "url": "../src/images/Wedding5.jpg"
-        }
-    ]
 
     return (
         <>

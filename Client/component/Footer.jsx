@@ -7,14 +7,11 @@ import PinterestIcon from '@mui/icons-material/Pinterest';
 import { Container } from "@mui/material";
 
 export default function Footer(){
-    let currentlocation = window.location.href;
-    let clService = currentlocation.includes("services") ? "true" : false;
-    let position = clService ? "relative" : "fixed";
-    
+    let position = "fixed";    
     return (
         <>
         <Container style={{height: 50}}></Container>
-        <Paper sx={{position: position, bottom: 0, left: 0, right: 0, width: "100%"}} elevation={3}>
+        <Paper sx={{position: position, bottom: 0, left: 0, right: 0, width: "100%", zIndex: 3}} >
         <BottomNavigation showLabels>
           <BottomNavigationAction label="Instagram" icon={<InstagramIcon />} href="https://www.instagram.com/caked.bykim" target="_blank"/>
           <BottomNavigationAction label="Email" icon={<EmailIcon />} href="mailto:cakedbykim1@gmail.com?subject=Inquiry" target="_blank"/>
