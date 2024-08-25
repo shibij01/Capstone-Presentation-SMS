@@ -3,8 +3,6 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { Box } from "@mui/material";
-import PortfolioBanner from "../src/images/PortfolioBanner.jpg"
 import ModalImage from "react-modal-image";
 
 export default function Portfolio() {
@@ -28,33 +26,30 @@ export default function Portfolio() {
 
     return (
         <>
-        <Box
-            sx={{
-                
-                width: '100%',
-                height: '250px',
-                overflow: "hidden",
-                my: '16px',
-                backgroundImage: `url(${PortfolioBanner})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                boxShadow: 5
-            }}
-        > 
-        <Typography variant="h2" color="primary" ml={8}>Portfolio</Typography>
-        </Box>
+        <Typography variant="h2" color="secondary" ml={8}>Portfolio</Typography>
         <Container>
         <ImageList variant="masonry" cols={3} gap={8}>
-                {mediaList.length > 0 && mediaList.map((item) => { 
-                    return <ImageListItem key={item.mediaId} sx={{boxShadow: 5}}>
-                         <ModalImage 
+                {mediaList.length > 0 && mediaList.map((item) => {
+                   return item.mediaType == "IMAGE" ?
+                     <ImageListItem key={item.mediaId}>
+                          <ModalImage 
                             small={`${item.mediaURL}`}
                             large={`${item.mediaURL}`}
                             hideDownload
                             hideZoom
                             loading="lazy"
                             />
-                        </ImageListItem>
+                        </ImageListItem> 
+                        : item.childrenURL.map((child) => {
+                            return <ImageListItem key={child.id}>
+                            <ModalImage 
+                            small={`${child.media_url}`}
+                            large={`${child.media_url}`}
+                            hideDownload
+                            hideZoom
+                            loading="lazy"
+                            />
+                            </ImageListItem>})
                 })}
         </ImageList>
         </Container>
