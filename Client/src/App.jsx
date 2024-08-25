@@ -12,6 +12,8 @@ import Navigation from '../component/Navigation'
 import Footer from '../component/Footer'
 import Services from '../component/Services'
 import Editorials from '../component/Editorials'
+import Login from '../component/Login'
+import { AdminProvider } from './context/AdminContext'
 
 
 function App( {children} ) {
@@ -22,24 +24,25 @@ function App( {children} ) {
 
   return (
     <>
+    <AdminProvider>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {children}
     </LocalizationProvider>
-
     <BrowserRouter>
         <Navigation />
         <Routes>
-            <Route path='samplepage' element={<SamplePage />} /> 
-            <Route path='/' element={<Home />} /> 
+            <Route path='/' element={<Home />} />
             <Route path='/portfolio' element={<Portfolio />} /> 
             <Route path='/weddings' element={<Weddings />} /> 
             <Route path='/about' element={<About />} />           
             <Route path='/inquire' element={<Inquire />} />
             <Route path='/services' element={<Services />} />
             <Route path='/editorials' element={<Editorials />} />
+            <Route path='/login' element={<Login />} />
         </Routes>
         <Footer />
       </BrowserRouter>
+    </AdminProvider>
     </>
   )
 }

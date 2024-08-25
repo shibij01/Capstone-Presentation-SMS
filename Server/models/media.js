@@ -14,6 +14,14 @@ const igMediaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    mediaType: {
+        type: String,
+        required: true
+    },
+    childrenURL: {
+        type: Array,
+        required: false
+    },
     mediaTimestamp: {
         type: Date,
         required: false
