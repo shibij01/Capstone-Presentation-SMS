@@ -5,9 +5,11 @@ import Divider from "@mui/material/Divider"
 import Box from "@mui/material/Box"
 import LogoutIcon from '@mui/icons-material/Logout';
 import Tooltip from "@mui/material/Tooltip";
-import { Container, IconButton } from "@mui/material"
+import Container from "@mui/material/Container"
+import IconButton from "@mui/material/IconButton"
 import { useContext } from "react"
 import AdminContext from "../src/context/AdminContext";
+import { Link, NavLink } from "react-router-dom"
 
 export default function Navigation(){
     const adminContext = useContext(AdminContext);
@@ -37,13 +39,13 @@ export default function Navigation(){
         <Box display="flex" flexDirection="column" alignItems="center" >
         <Divider orientation="horizontal" variant="fullWidth" flexItem />
         <ButtonGroup color="secondary" variant="text" aria-label="Basic button group" sx={{alignContent: "center"}}>
-            <Button href="/" >HOME</Button>
-            <Button href="/portfolio">PORTFOLIO</Button>
-            <Button href="/weddings">WEDDINGS</Button>
-            <Button href="/editorials">EDITORIALS</Button>
-            <Button href="/about">ABOUT</Button>
-            <Button href="/inquire">INQUIRE</Button>
-            <Button href="/services">SERVICES</Button>
+            <Button><NavLink to="/">HOME</NavLink></Button>
+            <Button><NavLink to="/portfolio">PORTFOLIO</NavLink></Button>
+            <Button><NavLink to="/weddings">WEDDINGS</NavLink></Button>
+            <Button><NavLink to="/editorials">EDITORIALS</NavLink></Button>
+            <Button><NavLink to="/about">About</NavLink></Button>
+            <Button><NavLink to="/inquire">INQUIRE</NavLink></Button>
+            <Button><NavLink to="/services">SERVICES</NavLink></Button>
         </ButtonGroup>
         </Box>
         </>

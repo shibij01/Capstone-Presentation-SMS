@@ -50,7 +50,7 @@ export default function Home() {
             'title': 'Home 6',
             'url': Home6
         }
-    ]
+  ]
 
     return (
         <>

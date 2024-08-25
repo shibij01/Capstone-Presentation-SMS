@@ -12,17 +12,17 @@ export default function Editorials() {
         <Typography variant="h2" color="secondary" ml={8}>Editorials</Typography>
         <Container>
             <ImageList variant="masonry" cols={3} gap={8}>
-            {imageList.length > 0 && imageList.map((item) => { 
-                return <ImageListItem key={item.id} >
-                    <ModalImage key={item.id} 
-                      small={`${item.url}`}
-                      large={`${item.url}`}
-                      hideDownload
-                      hideZoom
-                      loading="lazy"
-                    />
-                    </ImageListItem>
-            })}
+              {imageList.length > 0 && imageList.map((item) => { 
+                  return <ImageListItem key={item.id} >
+                      <ModalImage key={item.id} 
+                        small={`${item.url}`}
+                        large={`${item.url}`}
+                        hideDownload
+                        hideZoom
+                        loading="lazy"
+                      />
+                      </ImageListItem>
+              })}
             </ImageList>
         </Container>
         </>

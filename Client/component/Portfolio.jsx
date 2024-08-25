@@ -6,6 +6,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ModalImage from "react-modal-image";
 
 export default function Portfolio() {
+    const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
     const [mediaList, setMediaList] = useState([]);
 
     useEffect(() => {
@@ -13,7 +14,7 @@ export default function Portfolio() {
     }, []);
 
     async function getIGMedia() { 
-        const response = await fetch("http://localhost:3000/cakedByKim/getIGMedia", {
+        const response = await fetch(url+"/cakedByKim/getIGMedia", {
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json"

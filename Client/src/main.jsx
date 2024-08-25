@@ -19,7 +19,10 @@ const theme = createTheme({
   typography: {
     fontFamily: qsFont,
     fontSize: 12,
-    }
+    },
+  navlink: {
+      textDecoration: "none"
+  }
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

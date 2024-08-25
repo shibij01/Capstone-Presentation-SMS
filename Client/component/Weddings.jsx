@@ -7,7 +7,7 @@ import imageList from "../src/assets/wedding.js"
 
 export default function Weddings() {
 
-    return (
+  return (
         <>
         <Typography variant="h2" color="secondary" ml={8}>Wedding</Typography>
         <Container>
