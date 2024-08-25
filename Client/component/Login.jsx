@@ -16,6 +16,7 @@ import { useState, useContext } from "react"
 
 
 export default function Login() {
+  const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
   //use Navigate
   const navigate = useNavigate();
   const adminContext = useContext(AdminContext);
@@ -41,7 +42,7 @@ export default function Login() {
     }
 
     //call loginUser post api
-    const response = await fetch("http://localhost:3000/cakedByKim/loginAdmin", {
+    const response = await fetch(url + "/cakedByKim/loginAdmin", {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
