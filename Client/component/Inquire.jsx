@@ -104,7 +104,7 @@ export default function Inquire() {
     return (
         <>
         <Container>
-            <Typography variant="h2">Inquire</Typography>
+            <Typography variant="h2" color="secondary" ml={8}>Inquire</Typography>
 
             <Box component='form' onSubmit={(e) => {
                 console.log(e)
@@ -113,7 +113,8 @@ export default function Inquire() {
         <FormControl
         
         sx={{
-            width: '60vw'
+            width: '60vw',
+            ml: 8
         }}
 
         >

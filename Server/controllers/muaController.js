@@ -337,4 +337,3 @@ exports.deleteServicesList = async (req,res) => {
     }
 }
 
-}
