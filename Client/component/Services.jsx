@@ -18,6 +18,7 @@ import {Fragment} from "react"
 
 
 export default function Services() {
+    const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
     const adminContext = useContext(AdminContext);
     const isAdminLoggedIn = adminContext.loggedIn; 
     const [servicesList, setServicesList] = useState([]);
@@ -30,7 +31,7 @@ export default function Services() {
     
     async function getServicesList() {
         
-        const response = await fetch("http://localhost:3000/cakedByKim/getServicesList", {
+        const response = await fetch(url + "/cakedByKim/getServicesList", {
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json"
@@ -81,7 +82,7 @@ export default function Services() {
         
         const body = {servicesListNum: textId, servicesListHeading: newValueSH, servicesListDescription: newValueSD, servicesListSubHeadings: newSSH};
 
-        const response = await fetch("http://localhost:3000/cakedByKim/saveServicesList", {
+        const response = await fetch(url + "/cakedByKim/saveServicesList", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
@@ -125,7 +126,7 @@ export default function Services() {
 
         const body = {servicesListNum: textId};
 
-        const response = await fetch("http://localhost:3000/cakedByKim/deleteServicesList", {
+        const response = await fetch(url + "/cakedByKim/deleteServicesList", {
             method: "DELETE",
             body: JSON.stringify(body),
             headers: {
@@ -182,7 +183,7 @@ export default function Services() {
         
         const body = {servicesListNum: maxValue, servicesListHeading: newSHValue, servicesListDescription: newSDValue, servicesListSubHeadings: newSSH, servicesListType: type};
 
-        const response = await fetch("http://localhost:3000/cakedByKim/saveServicesList", {
+        const response = await fetch(url + "/cakedByKim/saveServicesList", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {

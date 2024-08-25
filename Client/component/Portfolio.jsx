@@ -14,7 +14,7 @@ export default function Portfolio() {
     }, []);
 
     async function getIGMedia() { 
-        const response = await fetch(url+"/cakedByKim/getIGMedia", {
+        const response = await fetch(url + "/cakedByKim/getIGMedia", {
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json"
@@ -22,6 +22,7 @@ export default function Portfolio() {
             });
 
         const data = await response.json();
+        console.log(data);
         setMediaList(data);
     }
 
