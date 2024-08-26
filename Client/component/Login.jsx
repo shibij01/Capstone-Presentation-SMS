@@ -75,7 +75,7 @@ export default function Login() {
                 boxShadow: 5
             }}
         > 
-        <Typography variant="h2" color="primary" ml={8}>Admin Login</Typography>
+        <Typography variant="h2" color="secondary" ml={8}>Admin Login</Typography>
         </Box>
         <Container>
           <Paper elevation={10} sx={{maxwidth: 250, m: "auto", p:2}} >

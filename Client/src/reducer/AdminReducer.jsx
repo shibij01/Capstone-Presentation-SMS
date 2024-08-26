@@ -4,7 +4,7 @@ let initialAccount = null;
 if (initialToken) 
 {
     //call verifyToken get api
-    const response = await fetch(`http://localhost:3000/cakedByKim/verifyToken/${initialToken}`, {
+    const response = await fetch(`https://cakedbykim-capstone-presentation-sms.onrender.com/cakedByKim/verifyToken/${initialToken}`, {
         method: "GET",
         headers: {
             'Content-Type': "application/json"

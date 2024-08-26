@@ -50,9 +50,9 @@ export function InquiryBox() {
 export default function Inquire() {
     const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
     
-    
     async function handleSubmit(e) {
-        
+        e.preventDefault();
+
         const inquiryType = e.target[0].value;
         const firstName = e.target[3].value;
         const lastName = e.target[4].value;
@@ -82,7 +82,6 @@ export default function Inquire() {
             howDidYouHear: howDidYouHear,
             detailsQuestionsNotes: detailsQuestionsNotes
         }
-        console.log(body)
         
         const response = await fetch(url+"/cakedByKim/createInquiry", {
             method: "POST",
@@ -107,7 +106,6 @@ export default function Inquire() {
             <Typography variant="h2" color="secondary" ml={8}>Inquire</Typography>
 
             <Box component='form' onSubmit={(e) => {
-                console.log(e)
                 handleSubmit(e)
                 }}>
         <FormControl

@@ -46,8 +46,7 @@ exports.createInquiry = async (req, res) => {
           howDidYouHear: howDidYouHear,
           detailsQuestionsNotes: detailsQuestionsNotes
       });
-      //console.log(newInquiry)
-
+      
       const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -58,7 +57,7 @@ exports.createInquiry = async (req, res) => {
 
       const message = {
           from: 'cakedbackendserver@gmail.com',
-          to: "shibi.john@gmail.com",
+          to: 'shibi.john@gmail.com',
         //cakedbykim1@gmail.com
           replyTo: `${email}`,
           subject: `${inquiryType} Inquiry: ${firstName} ${lastName}`,
@@ -78,7 +77,6 @@ exports.createInquiry = async (req, res) => {
       };
 
       transporter.sendMail(message, async function(error, info) {
-
             if (error) {
                 console.log(error);
 
