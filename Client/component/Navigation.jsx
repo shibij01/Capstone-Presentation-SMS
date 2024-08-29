@@ -30,7 +30,7 @@ export default function Navigation(){
         </Tooltip>
         </Container> }
 
-        <Typography color="secondary" sx={{mt: 2, px: 3, float: 'left'}} style={{fontFamily: "Abril Fatface", color: "gray", fontSize: 28}}>Caked. by Kim</Typography>
+        <Typography color="secondary" sx={{mt: 2, px: 3, float: 'left'}} style={{fontFamily: "Caprasimo", color: "black", fontSize: 28}}>Caked. by Kim</Typography>
         <img src="/images/Nav.jpg" height={100} width={100}/>
         <Typography color="secondary" sx={{mt: 2, px: 3, float: 'right'}}>
         Kim Coles <br/> Makeup Artist | Esthetician

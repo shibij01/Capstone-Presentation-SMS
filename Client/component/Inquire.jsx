@@ -51,7 +51,7 @@ export default function Inquire() {
     const url = "https://cakedbykim-capstone-presentation-sms.onrender.com";
 
     async function handleSubmit(e) {
-        e.preventDefault();
+        //e.preventDefault();
 
         const inquiryType = e.target[0].value;
         const firstName = e.target[3].value;
