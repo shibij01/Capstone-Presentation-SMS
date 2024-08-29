@@ -57,8 +57,7 @@ exports.createInquiry = async (req, res) => {
 
       const message = {
           from: 'cakedbackendserver@gmail.com',
-          to: 'shibi.john@gmail.com',
-        //cakedbykim1@gmail.com
+          to: 'cakedbykim1@gmail.com',
           replyTo: `${email}`,
           subject: `${inquiryType} Inquiry: ${firstName} ${lastName}`,
           html: `
